@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Spark-Man || Login & Registration</title>
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
+
+	<div class="header animated fadeInDown">
+		<p class="sg">Sign up!</p>
+		<p class="rg">Register!</p>
+	</div>
+
+	<div class="wrap animated fadeInUpBig">
+			<div class="ikona"><i class="material-icons">person</i></div>
+			<h2 class="Tekst_gornji">Member Login</h2>
+			<div class="inputi">
+            <form action="/login" method="post">
+                <input type="text" autocomplete="off" name="username" required placeholder="Username" />
+                <input type="password" autocomplete="off" name="password" required placeholder="Password" />
+                <input class="LG" type="submit" name="submit" value="Submit">
+            </form>
+			</div>
+			<p class="tekst_donji"><a href="#">Forgot Password?</a></p>
+	</div>
+
+	<div class="wrap1 animated fadeInUpBig">
+			<div class="ikona"><i class="material-icons">group_add</i></div>
+			<h2 class="Tekst_gornji">Register</h2>
+			<div class="inputi">
+		        <form action="/register" method="post">
+                    <input type="text" autocomplete="off" name="username" required/>
+                    <input type="password" autocomplete="off" name="password" required/>
+                    <input type="email" autocomplete="off" name="email" required placeholder="joe@joe.com" />
+                    <input class="LG" type="submit" name="submit" value="Submit">
+		        </form>
+			</div>
+
+	</div>
+
+	<script>
+
+	var brojac = 1;
+
+	document.getElementsByClassName("rg")[0].onclick = function (){
+		if (brojac){
+
+			var wrap1 = document.getElementsByClassName("wrap1")[0];
+			var wrap = document.getElementsByClassName("wrap")[0];
+			
+			wrap1.style.left = "40%";
+			wrap1.style.transition = "all 2.5s cubic-bezier(.48,-0.59,.4,1.54)";
+			
+			wrap.style.left = "200%";
+			wrap.style.transition = "all 2.5s cubic-bezier(.48,-0.59,.4,1.54)";
+			
+			brojac--;
+		}
+	}
+
+	document.getElementsByClassName("sg")[0].onclick = function (){
+		if (!brojac){
+
+			var wrap1 = document.getElementsByClassName("wrap1")[0];
+			var wrap = document.getElementsByClassName("wrap")[0];
+			
+			wrap1.style.left = "-50%";
+			wrap1.style.transition = "all 2.5s cubic-bezier(.48,-0.59,.4,1.54)";
+			
+			wrap.style.left = "40%";
+			wrap.style.transition = "all 2.5s cubic-bezier(.48,-0.59,.4,1.54)";
+			
+			brojac++;
+			
+		} 
+	}
+
+	</script>
+
+</body>
+</html>

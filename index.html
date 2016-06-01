@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style>
+			canvas {
+				border: 1px solid #777;
+				margin-left: 50%;
+				transform: translateX(-50%);
+			}
+		</style>
+		<script src="sprite.js"></script>
+		<script src="spica.js"></script>
+	    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+		<title>Spark-man</title>
+	</head>
+	<body onload="startGame()">
+    <% if(show) { %>
+    <h1 style="display:none;"><span id="usernamespan"><%= username %></span> best score: <%= score %></h1>
+	    <script src="glavna.js"></script>
+        <script src="dine.js"></script>
+    <% } else { %>
+        <%= message %>
+        <a href="registration"> Click to join</a><br>
+        <a href="score">Score List</a>
+    <% } %>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spark-Man || Leaderboard</title>
+    <style>
+        table{
+            margin: 0 auto;
+            font-size: 26px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        table tr:nth-child(2n){
+            font-size: 26px;
+            background: LightBlue;
+            transition: background 0.2s linear, font-size 0.3s linear;
+        }
+        
+        table tr:nth-child(2n - 1){
+            font-size: 26px;
+            background: PaleGreen;
+            transition: background 0.2s linear, font-size 0.3s linear;
+        }
+        
+        
+        table tr:nth-child(2n):hover, table tr:nth-child(2n - 1):hover{
+            transition: background 0.3s linear, font-size 0.6s linear;
+            background: yellow;
+            font-size: 30px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <table border="1">
+    <% for(var i = 0; i < listUsers.length; i++){ %>
+        <tr>
+            <td width="150px"><%= i+1+"." %></td>
+            <td width="250px"><%= listUsers[i].username %></td>
+            <td width="150px"><%= listUsers[i].score %></td>
+        </tr>
+
+    <% } %>
+
+    </table>
+</body>
+</html>
