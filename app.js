@@ -19,8 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 
 
-// get zahtjev na home/root direktorij 
-// kratak odgovor nista posebno kasnije renderamo pravu stanicu
+// get zahtjev na home/root direktorij
 app.get('/', function(req, res){
     //res.send("You need to login to play !!");
     res.render('index',{
@@ -57,13 +56,11 @@ app.get('/score', function(req, res){
     if(listUsers[0].score > usersDB.bestuser.score){
         //sendMail(usersDB.bestuser.username);
         usersDB.bestuser = listUsers[0];
-        updateDB(); // linija iznad posto dodajemo trenutnog usera u ovo best user moram update baze odradit ...jer TXZ ;)
+        updateDB();
     } else {
         usersDB.bestuser = listUsers[0];
     }
-    
-    // render stranice score.html i saljem kao parametar listu usera(sortiranu)
-    // koju kasnije kroz EJS for petljom ispises na str
+
     res.render('score',{listUsers});
 })
 
@@ -71,7 +68,7 @@ app.get('/registration', function(req, res){
     res.render('register',{error: false});
 });
 
-// post metoda za register kroz formu 
+// post metoda za register kroz formu
 app.post('/register', function(req, res, next){
     // uzimam podatke usera koje je unjeo u input polja
     var obj = {
@@ -80,10 +77,10 @@ app.post('/register', function(req, res, next){
         email: req.body.email,
         score: 0
     }
-    
+
     var lenUsers = usersDB.users.length;
     var hasUser = false;
-    
+
     // provjera postoji li vec taj username u bazi
     for(var i = 0; i < lenUsers; i++){
         if(obj.username === usersDB.users[i].username){
@@ -207,7 +204,7 @@ console.log("Listening on port: 2000");
 var addUser = function(data){
 
     // kreirati hash od passworda prilikom registracije
-    // prvo ide Salt pa se onda tek pravi hash 
+    // prvo ide Salt pa se onda tek pravi hash
 
     bcrypt.genSalt(10, function(err, salt){
         bcrypt.hash(data.password, salt, function(err, hash){
@@ -215,7 +212,7 @@ var addUser = function(data){
 
             usersDB.users.push(data); // update niz usera
 
-            updateDB(); // ponovo update baze 
+            updateDB(); // ponovo update baze
         });
     });
 }
@@ -236,29 +233,26 @@ var appendScore = function(data){
     console.log(usersDB);
     for(var i = 0; i < lenUsers; i++){
         if(usersDB.users[i].username == data.username){
-            if(usersDB.users[i].score < data.score){ // gledam isplati li se mijenjat score 
+            if(usersDB.users[i].score < data.score){ // gledam isplati li se mijenjat score
 
                 updatedUser.password = usersDB.users[i].password; // pohranjujem password i email
                 updatedUser.email = usersDB.users[i].email;
                 isBetter = true;
-                
+
                 //usersDB.users.splice(i);
-                delete usersDB.users[i]; // ovde brisem toga usera jer mi je to jedini nacin sto sam 
-                                         // skonto za update scora :D
-            } 
+                delete usersDB.users[i];
+            }
         }
 
     }
     if(isBetter){
-        usersDB.users.push(updatedUser); // gruam ovoga usera sa novim scorom u bazu
+        usersDB.users.push(updatedUser);
         updateDB(); // update baze
     }
 }
 
 var updateDB = function(){
-    // =====================================================================
-    // posto koristim opciju "delete array" dobijem prazna mijesa u bazi 
-    // tj dobijem "null" vrijednosti pa ovaj dio mi se rijesava tih problema
+
     var obj = {
         users:[],
         bestuser: ''
@@ -274,7 +268,7 @@ var updateDB = function(){
 
     try{
         console.log('Deleteing...')
-        fs.unlinkSync('./users.txt');// brisem staru bazu 
+        fs.unlinkSync('./users.txt');// brisem staru bazu
     } catch(err){
         console.log(err);
     }
@@ -309,46 +303,3 @@ var updateDB = function(){
     });
     // ====================================================================
 }
-
-// slanje maila
-/*
-var sendMail = function(user){
-    // kreirati osnovni dio koji ce se protokol koristit
-    // koji servis .. koji cu mail koristit za slanje drugim korisnicima
-    var transporter = nodemailer.createTransport('SMTP', {
-        service: 'Gmail',
-        auth: {
-            user: 'jrmara24@gmail.com', // ti mozes ovde dodat svoj ..ali mi javi ako dodavo
-            pass: ''       // jer ima malo sekanja na gmail
-        }
-    });
-    // pravim poruku koju saljem useru
-    var poruka = '<h2> Vas rekord je srusen </h2><p> Vratite se i dokazite da ste najbolji </p>';
-    var userMail;
-    for(var i = 0; i < usersDB.users.length; i++){
-        if(usersDB.users[i].username == user){ // trazim username koji sam posalo za slanje maila
-            userMail = usersDB.users[i].email;
-        }
-    }
-
-
-    // opcije koje ce se slat korisniku 
-    // od koga, kome, tema, poruka, itd ...
-    var mainOptions = {
-        from: 'SparkWebApp',
-        to: userMail,
-        subject: 'SparkWebApp Score',
-        text: 'You have a new submission',
-        html: poruka
-    }
-
-    // slanje maila
-    transporter.sendMail(mainOptions, function(err, info){
-        if(err){
-            console.log(err);
-        }
-        console.log("Message Sent to: " + user);
-    });
-
-}
-*/
